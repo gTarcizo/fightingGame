@@ -1,4 +1,28 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
+
+#container{
+    position: relative;
+    display: inline-block;
+}
+
+#smaller{
+    position: absolute;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+
+}
+
+#timer{
+    background-color: red;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+

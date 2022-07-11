@@ -11,8 +11,8 @@ class Sprite {
     constructor({position, velocity, color ='red', offset}) {
         this.position = position
         this.velocity = velocity
-        this.width = 50
-        this.height = 150
+        this.width = 55
+        this.height = 130
         this.lastKey
         this.attackBox = {
             position: {
@@ -25,6 +25,7 @@ class Sprite {
         }
         this.color = color
         this.isAttacking
+        this.health = 100
     }
 
 
@@ -157,7 +158,8 @@ function animate() {
         player.isAttacking
         ){
         player.isAttacking = false
-        console.log('TOME')
+        enemy.health -= 20
+        document.getElementById('enemy').style.width = enemy.health + '%'
     }
 
     if( rectangularCollision({
@@ -166,14 +168,14 @@ function animate() {
         enemy.isAttacking
         ){
         enemy.isAttacking = false
-        console.log('TOMEI')
+        player.health -= 20
+        document.getElementById('player').style.width = player.health + '%'
     }
-
 
 }
 
-animate()
 
+animate()
 
 
 window.addEventListener('keydown', (event) => {
