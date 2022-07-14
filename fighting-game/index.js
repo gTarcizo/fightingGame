@@ -1,6 +1,8 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-
+let nomeDoBoneco = 'Emily'
+let nomeDoBoneco2 = 'Maria'
+//        this.velocity.y = -14
 canvas.width = 1024
 canvas.height = 476
 c.fillRect(0, 0, canvas.width, canvas.height)//4 arguments
@@ -26,9 +28,10 @@ class Sprite {
         this.color = color
         this.isAttacking
         this.health = 100
+        this.isJumping
     }
 
-
+    
 
     draw(){
         c.fillStyle = this.color
@@ -36,6 +39,8 @@ class Sprite {
         
         // attack box
        if( this.isAttacking){
+        player.velocity.x = 0
+        enemy.velocity.x = 0
         c.fillStyle = 'green'
         c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)    
         }
@@ -57,13 +62,22 @@ class Sprite {
         this.isAttacking = true
         setTimeout(()=> {
             this.isAttacking = false
-        }, 100)
+        }, 200)
+    }
+
+    jump(){
+        this.isJumping = true
+        if(this.isJumping){
+            this.velocity.y = -14
+            this.isJumping = false
+        }
+
     }
 }
 
 const player = new Sprite({
     position: {
-        x: 350,
+        x: 370,
         y: 0,
     },
     velocity: {
@@ -126,6 +140,40 @@ function rectangularCollision( { rectangle1, rectangle2 } ){
     )
 }
 
+function determineWinner ({player, enemy, timerId}) {
+    clearTimeout(timerId)
+    document.getElementById('displayText').style.display = 'flex'
+    if( player.health === enemy.health && timer === 0){
+        document.getElementById('displayText').innerHTML = 'Time Out!'
+    }else if (player.health === enemy.health) {
+        document.getElementById('displayText').innerHTML = 'Double K.O!'
+    }else if ( player.health > enemy.health){
+        document.getElementById('displayText').innerHTML = `${nomeDoBoneco} Wins!`
+    }else if ( enemy.health > player.health){
+        document.getElementById('displayText').innerHTML = `${nomeDoBoneco2} Wins!`
+    }
+}
+
+let timer = 11
+let timerId
+function decreaseTimer(){
+    if (timer > 0) {
+        timerId = setTimeout(decreaseTimer, 1000)
+        timer--
+        document.getElementById('timer').innerHTML = timer
+    }
+    
+    if( timer <= 0) {
+        determineWinner({ player, enemy, timerId})
+    }
+
+    if (enemy.health <= 0 || player.health <= 0) {
+        determineWinner({ player, enemy , timerId })
+    }
+
+}
+decreaseTimer()
+
 function animate() {
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
@@ -152,13 +200,9 @@ function animate() {
 
 //  detect for collision
 
-    if( rectangularCollision({
-        rectangle1: player, rectangle2: enemy,
-    }) &&
-        player.isAttacking
-        ){
+    if( rectangularCollision({ rectangle1: player, rectangle2: enemy, }) && player.isAttacking){
         player.isAttacking = false
-        enemy.health -= 20
+        enemy.health -= 5
         document.getElementById('enemy').style.width = enemy.health + '%'
     }
 
@@ -168,7 +212,7 @@ function animate() {
         enemy.isAttacking
         ){
         enemy.isAttacking = false
-        player.health -= 20
+        player.health -= 5
         document.getElementById('player').style.width = player.health + '%'
     }
 
@@ -190,7 +234,7 @@ window.addEventListener('keydown', (event) => {
             player.lastKey = 'a'
             break
         case 'w':
-            player.velocity.y = -14
+            player.jump()
             break
         case 'f':
             player.attack()
