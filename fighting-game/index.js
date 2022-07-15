@@ -1,7 +1,7 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-let nomeDoBoneco = 'Emily'
-let nomeDoBoneco2 = 'Maria'
+let nomeDoBoneco = 'Natã'
+let nomeDoBoneco2 = 'Paulo'
 //        this.velocity.y = -14
 canvas.width = 1024
 canvas.height = 476
@@ -10,6 +10,31 @@ const gravity = 0.6
 
 
 class Sprite {
+    constructor({position, velocity, color ='red', offset}) {
+        this.position = position
+        this.velocity = velocity
+        this.width = 55
+        this.height = 130
+    }
+
+    
+
+    draw(){
+        }
+
+    update(){
+        this.draw()
+    }
+
+
+    jump(){
+        this.isJumping = true
+        if(this.isJumping){
+            this.velocity.y = -14
+        }
+    }
+}
+class Fighter {
     constructor({position, velocity, color ='red', offset}) {
         this.position = position
         this.velocity = velocity
@@ -69,9 +94,7 @@ class Sprite {
         this.isJumping = true
         if(this.isJumping){
             this.velocity.y = -14
-            this.isJumping = false
         }
-
     }
 }
 
@@ -149,12 +172,13 @@ function determineWinner ({player, enemy, timerId}) {
         document.getElementById('displayText').innerHTML = 'Double K.O!'
     }else if ( player.health > enemy.health){
         document.getElementById('displayText').innerHTML = `${nomeDoBoneco} Wins!`
+
     }else if ( enemy.health > player.health){
         document.getElementById('displayText').innerHTML = `${nomeDoBoneco2} Wins!`
     }
 }
 
-let timer = 11
+let timer = 13
 let timerId
 function decreaseTimer(){
     if (timer > 0) {
@@ -164,6 +188,8 @@ function decreaseTimer(){
     }
     
     if( timer <= 0) {
+        player.velocity.y = 0
+        enemy.velocity.x = 0
         determineWinner({ player, enemy, timerId})
     }
 
@@ -175,6 +201,8 @@ function decreaseTimer(){
 decreaseTimer()
 
 function animate() {
+    document.getElementById('enemy').style.transition = '200ms'
+    document.getElementById('player').style.transition = '200ms'
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
@@ -200,22 +228,22 @@ function animate() {
 
 //  detect for collision
 
-    if( rectangularCollision({ rectangle1: player, rectangle2: enemy, }) && player.isAttacking){
-        player.isAttacking = false
-        enemy.health -= 5
-        document.getElementById('enemy').style.width = enemy.health + '%'
-    }
+if( rectangularCollision({ rectangle1: player, rectangle2: enemy, }) && player.isAttacking){
+    player.isAttacking = false
+    enemy.health -= 5
+    document.getElementById('enemy').style.width = enemy.health + '%'
+}
 
     if( rectangularCollision({
         rectangle1: enemy, rectangle2: player,
     }) &&
-        enemy.isAttacking
-        ){
+    enemy.isAttacking
+    ){
         enemy.isAttacking = false
         player.health -= 5
         document.getElementById('player').style.width = player.health + '%'
     }
-
+    
 }
 
 
@@ -249,7 +277,7 @@ window.addEventListener('keydown', (event) => {
             enemy.lastKey = 'ArrowLeft'
             break
         case 'ArrowUp':
-            enemy.velocity.y = -14
+            enemy.jump()
             break
         case ' ':
             enemy.attack()
