@@ -79,7 +79,6 @@ class Fighter {
         this.attackBox.position.y = this.position.y
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
-
         if( this.position.y + this.height + this.velocity.y >= canvas.height - 87){
             this.velocity.y = 0
         } else this.velocity.y += gravity
@@ -93,6 +92,7 @@ class Fighter {
     }
 
     jump(){
+        if (timer <= 0) return
         this.isJumping = true
         if(this.isJumping){
             this.velocity.y = -14

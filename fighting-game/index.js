@@ -101,15 +101,19 @@ function animate() {
 
 //  Player Movement
     if (keys.a.pressed && player.lastKey === 'a') {
+        if (timer <= 0) return
         player.velocity.x = -4
     } else if (keys.d.pressed && player.lastKey === 'd') {
+        if (timer <= 0) return
         player.velocity.x = 4
     }
 
 //  Enemy Movement
     if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+        if (timer <= 0) return
         enemy.velocity.x = -4
     } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+        if (timer <= 0) return
         enemy.velocity.x = 4
     }
 
