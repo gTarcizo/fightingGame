@@ -1,104 +1,22 @@
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
-let nomeDoBoneco = 'Natã'
-let nomeDoBoneco2 = 'Paulo'
+let nomeDoBoneco = 'Teste1'
+let nomeDoBoneco2 = 'Teste2'
 //        this.velocity.y = -14
 canvas.width = 1024
-canvas.height = 476
+canvas.height = 570
 c.fillRect(0, 0, canvas.width, canvas.height)//4 arguments
 const gravity = 0.6
 
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0,
+    },
+    imageSrc: './img/background.png'
+})
 
-class Sprite {
-    constructor({position, velocity, color ='red', offset}) {
-        this.position = position
-        this.velocity = velocity
-        this.width = 55
-        this.height = 130
-    }
-
-    
-
-    draw(){
-        }
-
-    update(){
-        this.draw()
-    }
-
-
-    jump(){
-        this.isJumping = true
-        if(this.isJumping){
-            this.velocity.y = -14
-        }
-    }
-}
-class Fighter {
-    constructor({position, velocity, color ='red', offset}) {
-        this.position = position
-        this.velocity = velocity
-        this.width = 55
-        this.height = 130
-        this.lastKey
-        this.attackBox = {
-            position: {
-                x: this.position.x,
-                y: this.position.y,
-            },
-            offset,
-            width: 120,
-            height: 40,
-        }
-        this.color = color
-        this.isAttacking
-        this.health = 100
-        this.isJumping
-    }
-
-    
-
-    draw(){
-        c.fillStyle = this.color
-        c.fillRect(this.position.x, this.position.y, this.width, this.height) // tamanho e posição do retangulo
-        
-        // attack box
-       if( this.isAttacking){
-        player.velocity.x = 0
-        enemy.velocity.x = 0
-        c.fillStyle = 'green'
-        c.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)    
-        }
-        }
-
-    update(){
-        this.draw()
-        this.attackBox.position.x = this.position.x + this.attackBox.offset.x
-        this.attackBox.position.y = this.position.y
-        this.position.x += this.velocity.x
-        this.position.y += this.velocity.y
-
-        if( this.position.y + this.height + this.velocity.y >= canvas.height){
-            this.velocity.y = 0
-        } else this.velocity.y += gravity
-    }
-
-    attack(){
-        this.isAttacking = true
-        setTimeout(()=> {
-            this.isAttacking = false
-        }, 200)
-    }
-
-    jump(){
-        this.isJumping = true
-        if(this.isJumping){
-            this.velocity.y = -14
-        }
-    }
-}
-
-const player = new Sprite({
+const player = new Fighter({
     position: {
         x: 370,
         y: 0,
@@ -114,7 +32,7 @@ const player = new Sprite({
     })
 
 
-const enemy = new Sprite({
+const enemy = new Fighter({
     position: {
         x: 600,
         y: 100,
@@ -154,50 +72,6 @@ const keys = {
 
 let lastKey
 
-function rectangularCollision( { rectangle1, rectangle2 } ){
-    return (
-        player.attackBox.position.x + player.attackBox.width >= enemy.position.x && 
-        player.attackBox.position.x <= enemy.position.x + enemy.width &&
-        player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
-        player.attackBox.position.y <= enemy.position.y + enemy.height 
-    )
-}
-
-function determineWinner ({player, enemy, timerId}) {
-    clearTimeout(timerId)
-    document.getElementById('displayText').style.display = 'flex'
-    if( player.health === enemy.health && timer === 0){
-        document.getElementById('displayText').innerHTML = 'Time Out!'
-    }else if (player.health === enemy.health) {
-        document.getElementById('displayText').innerHTML = 'Double K.O!'
-    }else if ( player.health > enemy.health){
-        document.getElementById('displayText').innerHTML = `${nomeDoBoneco} Wins!`
-
-    }else if ( enemy.health > player.health){
-        document.getElementById('displayText').innerHTML = `${nomeDoBoneco2} Wins!`
-    }
-}
-
-let timer = 13
-let timerId
-function decreaseTimer(){
-    if (timer > 0) {
-        timerId = setTimeout(decreaseTimer, 1000)
-        timer--
-        document.getElementById('timer').innerHTML = timer
-    }
-    
-    if( timer <= 0) {
-        player.velocity.y = 0
-        enemy.velocity.x = 0
-        determineWinner({ player, enemy, timerId})
-    }
-
-    if (enemy.health <= 0 || player.health <= 0) {
-        determineWinner({ player, enemy , timerId })
-    }
-
-}
 decreaseTimer()
 
 function animate() {
@@ -206,6 +80,7 @@ function animate() {
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
+    background.update()
     player.update()
     enemy.update()
 
