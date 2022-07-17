@@ -151,7 +151,7 @@ window.addEventListener('keydown', (event) => {
         case 'w':
             player.jump()
             break
-        case 'f':
+        case ' ':
             player.attack()
             break
             
@@ -166,7 +166,7 @@ window.addEventListener('keydown', (event) => {
         case 'ArrowUp':
             enemy.jump()
             break
-        case ' ':
+        case '0':
             enemy.attack()
             break
             
