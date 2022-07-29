@@ -2,7 +2,7 @@ const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 let nomeDoBoneco = 'Samurai Mack'
 let nomeDoBoneco2 = 'Kenji'
-//        this.velocity.y = -14
+// this.velocity.y = -14
 canvas.width = 1024
 canvas.height = 570
 c.fillRect(0, 0, canvas.width, canvas.height)//4 arguments
@@ -175,8 +175,8 @@ let lastKey
 decreaseTimer()
 
 function animate() {
-    document.getElementById('enemy').style.transition = '200ms'
-    document.getElementById('player').style.transition = '200ms'
+/*     document.getElementById('enemy').style.transition = '200ms'
+    document.getElementById('player').style.transition = '200ms' */
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
@@ -234,7 +234,9 @@ function animate() {
 if( rectangularCollision({ rectangle1: player, rectangle2: enemy, }) && player.isAttacking && player.frameCurrent === 4){
     enemy.takeHit(10)
     player.isAttacking = false
-    document.getElementById('enemy').style.width = enemy.health + '%'
+    gsap.to('#enemy', {
+        width: enemy.health + '%',
+    })
 }
 //  if player misses
 if(player.isAttacking && player.frameCurrent ===4){
@@ -248,7 +250,10 @@ if(player.isAttacking && player.frameCurrent ===4){
     ){
         player.takeHit(5)
         enemy.isAttacking = false
-        document.getElementById('player').style.width = player.health + '%'
+
+        gsap.to('#player', {
+            width: player.health + '%',
+        })
     }
 
 // if enemy misses
