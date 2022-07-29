@@ -11,18 +11,18 @@ function determineWinner ({player, enemy, timerId}) {
     clearTimeout(timerId)
     document.getElementById('displayText').style.display = 'flex'
     if( player.health === enemy.health && timer === 0){
-        document.getElementById('displayText').innerHTML = 'Time Out!'
+        document.getElementById('displayText').innerHTML = 'Time Out'
     }else if (player.health === enemy.health) {
-        document.getElementById('displayText').innerHTML = 'Double K.O!'
+        document.getElementById('displayText').innerHTML = 'Double K.O'
     }else if ( player.health > enemy.health){
-        document.getElementById('displayText').innerHTML = `${nomeDoBoneco} Wins!`
+        document.getElementById('displayText').innerHTML = `${nomeDoBoneco} Wins`
 
     }else if ( enemy.health > player.health){
-        document.getElementById('displayText').innerHTML = `${nomeDoBoneco2} Wins!`
+        document.getElementById('displayText').innerHTML = `${nomeDoBoneco2} Wins`
     }
 }
 
-let timer = 20
+let timer = 40
 let timerId
 function decreaseTimer(){
     if (timer > 0) {

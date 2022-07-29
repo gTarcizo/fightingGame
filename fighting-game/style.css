@@ -4,6 +4,19 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: "gameover";
+    src: url("./font/gameover.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "timer";
+    src: url("./font/ARCADECLASSIC.TTF") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
 #container{
     position: relative;
     display: inline-block;
@@ -19,18 +32,20 @@
 }
 
 #timer{
-    background-color: red;
-    width: 80px;
-    height: 80px;
+    background-color: rgba(30, 53, 116, 0.438);
+    width: 60px;
+    border-radius: 20% ;
+    border: 3px solid rgba(228, 228, 220, 0.89);
+    height: 50px;
     flex-shrink: 0;
     color: white;
-    font-size: 2em;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.7em;
+    font-family: "timer";
 }
 
 #displayText{
     font-size: 3em;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: "gameover";
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.575);
 }
 
